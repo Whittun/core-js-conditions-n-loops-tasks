@@ -468,8 +468,21 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  const resArr = arr;
+
+  for (let i = 1; i < resArr.length; i += 1) {
+    const current = resArr[i];
+
+    let j = i;
+    while (j > 0 && current < resArr[j - 1]) {
+      resArr[j] = resArr[j - 1];
+      j -= 1;
+    }
+    resArr[j] = current;
+  }
+
+  return arr;
 }
 
 /**
@@ -489,8 +502,29 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  let resStr = str;
+  let innerIteration = iterations;
+
+  for (let j = 1; j <= innerIteration; j += 1) {
+    let leftStr = '';
+    let rightStr = '';
+
+    for (let i = 0; i < str.length; i += 1) {
+      if (i % 2 !== 0) {
+        rightStr += resStr[i];
+      } else {
+        leftStr += resStr[i];
+      }
+    }
+
+    resStr = leftStr + rightStr;
+
+    if (resStr === str) {
+      innerIteration = j + (iterations % j);
+    }
+  }
+  return resStr;
 }
 
 /**
@@ -510,8 +544,45 @@ function shuffleChar(/* str, iterations */) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  const str = `${number}`;
+  const arr = [];
+  for (let i = 0; i < str.length; i += 1) {
+    arr.push(+str[i]);
+  }
+
+  for (let i = arr.length - 1; i >= 0; i -= 1) {
+    if (arr[i] > arr[i - 1]) {
+      let j = i;
+      let minMoreIndex = j;
+      while (j < arr.length) {
+        if (arr[j] > arr[i - 1] && arr[minMoreIndex] > arr[j]) {
+          minMoreIndex = j;
+        }
+
+        j += 1;
+      }
+
+      const minMoreValue = arr[i - 1];
+      arr[i - 1] = arr[minMoreIndex];
+      arr[minMoreIndex] = minMoreValue;
+
+      for (let k = i + 1; k < arr.length; k += 1) {
+        const current = arr[k];
+
+        let m = k;
+        while (m > i && current < arr[m - 1]) {
+          arr[m] = arr[m - 1];
+          m -= 1;
+        }
+        arr[m] = current;
+      }
+
+      return +arr.join('');
+    }
+  }
+
+  return arr;
 }
 
 module.exports = {
