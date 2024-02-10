@@ -336,8 +336,55 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const arr = [];
+  for (let i = 0; i < size; i += 1) {
+    arr[i] = new Array(size);
+  }
+
+  let top = 0;
+  let left = 0;
+  let right = arr[0].length - 1;
+  let bottom = arr.length - 1;
+
+  let sizeIteration = arr.length * 2 - 1;
+  let counter = 1;
+
+  while (sizeIteration >= 0) {
+    for (let i = left; i <= right; i += 1) {
+      arr[top][i] = counter;
+      counter += 1;
+    }
+
+    sizeIteration -= 1;
+    top += 1;
+
+    for (let j = top; j <= bottom; j += 1) {
+      arr[j][right] = counter;
+      counter += 1;
+    }
+
+    sizeIteration -= 1;
+    right -= 1;
+
+    for (let k = right; k >= left; k -= 1) {
+      arr[bottom][k] = counter;
+      counter += 1;
+    }
+
+    sizeIteration -= 1;
+    bottom -= 1;
+
+    for (let h = bottom; h >= top; h -= 1) {
+      arr[h][left] = counter;
+      counter += 1;
+    }
+
+    sizeIteration -= 1;
+    left += 1;
+  }
+
+  return arr;
 }
 
 /**
@@ -355,8 +402,56 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const copyMatrix = JSON.parse(JSON.stringify(matrix));
+  const resArr = matrix;
+
+  let matrixTop = 0;
+  let matrixLeft = 0;
+  let matrixRight = matrix[0].length - 1;
+  let matrixBottom = matrix.length - 1;
+
+  let resTop = 0;
+  let resLeft = 0;
+  let resRight = matrix[0].length - 1;
+  let resBottom = matrix.length - 1;
+
+  let sizeIteration = matrix.length * 2 - 1;
+  while (sizeIteration >= 0) {
+    for (let i = matrixLeft; i <= matrixRight; i += 1) {
+      resArr[i][resRight] = copyMatrix[matrixTop][i];
+    }
+    resRight -= 1;
+    matrixTop += 1;
+    sizeIteration -= 1;
+
+    for (let i = matrixTop; i <= matrixBottom; i += 1) {
+      resArr[resBottom][resArr[resBottom].length - 1 - i] =
+        copyMatrix[i][matrixRight];
+    }
+
+    matrixRight -= 1;
+    resBottom -= 1;
+    sizeIteration -= 1;
+
+    for (let h = matrixBottom; h >= matrixLeft; h -= 1) {
+      resArr[h][resLeft] = copyMatrix[matrixBottom][h];
+    }
+
+    matrixBottom -= 1;
+    resLeft += 1;
+    sizeIteration -= 1;
+
+    for (let i = matrixBottom; i >= matrixTop; i -= 1) {
+      resArr[resTop][resArr[resTop].length - 1 - i] = copyMatrix[i][matrixLeft];
+    }
+
+    matrixLeft += 1;
+    resTop += 1;
+    sizeIteration -= 1;
+  }
+
+  return resArr;
 }
 
 /**
